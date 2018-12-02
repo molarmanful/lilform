@@ -48,13 +48,13 @@ class Env {
 
   // running sim
   step(){
-    // food regen
-    this.food.map((a,b)=>{
-      this.food[b].add(1)
-    })
     // cell actions
     this.cell.map((a,b)=>{
       this.cell[b].decide(this.food,this.cell)
+    })
+    // food regen
+    this.food.map((a,b)=>{
+      this.food[b].add(1)
     })
     // clean up map
     this.cull()
@@ -139,15 +139,10 @@ class Cell {
     let nearing = sort(this.findFood(around), a=> dist(this.row,this.col,a.row,a.col))
     let near = nearing[0]
 
-    // duplicate
-    if(this.energy >= 2*this.base) this.dup()
     // eat
-    else if(near && this.row == near.row && this.col == near.col){
+    if(near && this.row == near.row && this.col == near.col){
       this.eat(near)
     }
-    // reproduce
-    else if(near && near.constructor == Cell && this.energy < near.energy) this.rep(near)
-    // find food
     else if(this.energy >= this.cost){
       // move towards nearest detected food
       if(near){
@@ -158,6 +153,12 @@ class Cell {
       } else this.rmove()
     // if the cell doesn't have enough energy to move, then slowly die
     } else this.move(0,0)
+
+    // duplicate
+    if(this.energy >= 2*this.base) this.dup()
+    // reproduce
+    if(near && near.constructor == Cell && this.energy < near.energy) this.rep(near)
+    // find food
 
     return this
   }
