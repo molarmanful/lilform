@@ -2,16 +2,39 @@ doctype html
 html
   head
     title Env Test
+    style.
+      #box{
+        font-size:10px;
+      }
   body
     pre#box
-    script(src='env.js')
+    script(src='lib/env.js')
     script.
-      ENV = new Env(50,50)
+      let ENV = new Env(50,50)
+      let C = 10
 
-      ;[...new Array(10)].map(_=> ENV.addCell())
+      ;[...new Array(C)].map(_=> ENV.addCell())
       ;[...new Array(7000)].map(_=> ENV.addFood())
 
-      setInterval(_=>{
-        box.innerHTML = ENV+''
+      let info = [...new Array(C)].map((_,a)=>[
+        ENV.cell[a].base,
+        ENV.cell[a].cost,
+        ENV.cell[a].sight
+      ])
+
+      let N = 0
+      let foodl = []
+      let celll = []
+
+      let update = _=>{
+        box.innerHTML = N++ +'\n'+ENV+'\n'+info.map(a=> a.join`\t`).join`\n`
+        // console.clear()
+        // console.log(ENV.cell.map(a=> a+''))
+        // console.log(ENV.food.map(a=> a+''))
+        celll.push([...new Array(C)].map((_,a)=> ENV.cell.filter(b=> b.type ==a).length))
         ENV.step()
-      },500)
+      }
+      update()
+      // onkeydown=update
+      // setInterval(update,100)
+      ;[...Array(50)].map(a=> update());console.log(celll.map(a=> a+'').join`\n`)

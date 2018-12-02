@@ -1,6 +1,6 @@
-let Env = require('../env.js')
+let Env = require('../lib/env.js')
 let ENV = new Env(50,50)
-let C = 2
+let C = 10
 
 ;[...new Array(C)].map(_=> ENV.addCell())
 ;[...new Array(7000)].map(_=> ENV.addFood())

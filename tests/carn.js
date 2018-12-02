@@ -1,4 +1,4 @@
-Env = require('../env.js')
+Env = require('../lib/env.js')
 ENV = new Env(10,10)
 
 ENV.addCell(0,0,undefined,10,100,10)

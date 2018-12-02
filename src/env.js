@@ -1,10 +1,13 @@
+// LILFORM - by Benjamin Pang, aka @molarmanful
+// (c) MIT 2018
+
 // helpers
 let rand = (x,y)=>{
   let X = Math.min(x,y)
   let Y = Math.max(x,y)
   return (0|Math.random()*(Y-X+1))+X
 }
-let dist = (x,y,a,b)=> Math.abs(x-a)+Math.abs(y-b)
+let dist = (x,y,a,b)=> ((x-a)**2+(y-b)**2)**.5
 let sort = (x,y)=> x.sort((a,b)=> y(a)-y(b))
 
 class Env {
@@ -132,37 +135,29 @@ class Cell {
     let around = [...aroundf,...aroundc]
     // default case handling
     if(!around.length) around = food
-    // find nearest + richest food/cell
-    let nearing = sort(
-      sort(this.findFood(around), a=> dist(this.row,this.col,a.row,a.col)),
-      a=> this.val || this.energy
-    )
+    // find nearest food/cell
+    let nearing = sort(this.findFood(around), a=> dist(this.row,this.col,a.row,a.col))
     let near = nearing[0]
 
     // duplicate
     if(this.energy >= 2*this.base) this.dup()
-    // reproduce
-    if(near && near.constructor == Cell){
-      if(this.energy <= near.energy) this.rep(near)
-      else this.eat(near)
-    }
     // eat
-    if(near && this.row == near.row && this.col == near.col) this.eat(near)
-    // find food
-    else {
-      if(this.energy >= this.cost){
-        // move towards nearest detected food
-        if(near){
-          let row = Math.sign(near.row - this.row)
-          let col = Math.sign(near.col - this.col)
-          this.move(row,col)
-        // move randomly if no food is nearby
-        } else this.rmove()
-      // if the cell doesn't have enough energy to move, then slowly die
-      } else {
-        this.move(0,0)
-      }
+    else if(near && this.row == near.row && this.col == near.col){
+      this.eat(near)
     }
+    // reproduce
+    else if(near && near.constructor == Cell && this.energy < near.energy) this.rep(near)
+    // find food
+    else if(this.energy >= this.cost){
+      // move towards nearest detected food
+      if(near){
+        let row = Math.sign(near.row - this.row)
+        let col = Math.sign(near.col - this.col)
+        this.move(row,col)
+      // move randomly if no food is nearby
+      } else this.rmove()
+    // if the cell doesn't have enough energy to move, then slowly die
+    } else this.move(0,0)
 
     return this
   }
