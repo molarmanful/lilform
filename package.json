@@ -1,0 +1,22 @@
+{
+  "name": "lilform",
+  "version": "0.0.0",
+  "description": "A cell simulation",
+  "main": "env.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molarmanful/lilform.git"
+  },
+  "author": "Benjamin Pang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/molarmanful/lilform/issues"
+  },
+  "homepage": "https://github.com/molarmanful/lilform#readme"
+}
