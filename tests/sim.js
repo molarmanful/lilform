@@ -8,7 +8,8 @@ let C = 10
 let info = [...new Array(C)].map((_,a)=>[
   ENV.cell[a].base,
   ENV.cell[a].cost,
-  ENV.cell[a].sight
+  ENV.cell[a].sight,
+  ENV.cell[a].lim
 ])
 
 let N = 0
@@ -24,4 +25,4 @@ setInterval(_=>{
     )
   })
   ENV.step()
-})
+},100)
