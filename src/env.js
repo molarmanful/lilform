@@ -13,6 +13,7 @@ let rand = (x,y)=>{
 let dist = (x,y,a,b)=> ((x-a)**2+(y-b)**2)**.5
 let sort = (x,y)=> x.sort((a,b)=> y(a)-y(b))
 let sort2 = (x,y,z)=> x.sort((a,b)=> y(a)-y(b) || z(a)-z(b))
+let em = '\u263a\u263b\u2665\u2666\u2663\u2660\u2642\u2640\u266a\u263c'
 
 class Env {
   constructor(rows,cols){
@@ -26,8 +27,8 @@ class Env {
   // for printing/debugging purposes
   toString(){
     let x = [...new Array(this.rows*this.cols)]
-    ;[...this.food,this.cell].map(a=>{
-      x[this.cols*a.row+a.col] = (a.type || '.')+''
+    this.cell.map(a=>{
+      x[this.cols*a.row+a.col] = em[a.type]
     })
     return x.map((a,b)=>
       (a || ' ')+((b+1)%this.cols ? ' ' : '\n')
