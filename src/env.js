@@ -99,6 +99,7 @@ class Food {
   }
   add(x = this.regen){
     if(this.energy < this.base) this.energy += x
+    if(this.energy > this.base) this.energy = this.base
 
     return this
   }
